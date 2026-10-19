@@ -45,6 +45,8 @@ export async function fetchIssues(): Promise<JiraIssue[]> {
   });
   if (!res.ok) throw new Error(`Jira ${res.status}: ${(await res.text()).slice(0, 200)}`);
   const data = (await res.json()) as { issues: RawIssue[] };
+  // log hanya terlihat di dashboard Vercel (Logs), tidak dikirim ke browser
+  console.log(`[jira] host=${new URL(baseUrl).host} hasil=${data.issues.length} jql=${jql}`);
   return data.issues.map((i) => ({
     key: i.key,
     summary: i.fields.summary,
