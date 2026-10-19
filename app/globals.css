@@ -1,9 +1,6 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+:root { --background: #0a1a45; --foreground: #fff; }
 
 @theme inline {
   --color-background: var(--background);
@@ -12,15 +9,53 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+body { background: var(--background); color: var(--foreground); font-family: var(--font-geist-sans), system-ui, sans-serif; }
+nav::-webkit-scrollbar { display: none; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ---------- animasi karakter ---------- */
+.spr * { transform-box: fill-box; }
+.spr .leg-a, .spr .leg-b, .spr .arm-a, .spr .arm-b { transform-origin: 50% 0%; }
+.spr .head { transform-origin: 50% 100%; }
+.spr .bob, .spr .eyes, .spr .paper { transform-origin: 50% 100%; }
+
+@keyframes swingA { 0%,100% { transform: rotate(-24deg) } 50% { transform: rotate(24deg) } }
+@keyframes swingB { 0%,100% { transform: rotate(24deg) } 50% { transform: rotate(-24deg) } }
+@keyframes hop { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2.5px) } }
+@keyframes breathe { 0%,100% { transform: translateY(0) } 50% { transform: translateY(1.2px) } }
+@keyframes typeA { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+@keyframes typeB { 0%,100% { transform: translateY(-3px) } 50% { transform: translateY(0) } }
+@keyframes nod { 0%,100% { transform: rotate(0) } 50% { transform: rotate(5deg) } }
+@keyframes tilt { 0%,100% { transform: rotate(-4deg) } 50% { transform: rotate(4deg) } }
+@keyframes wave { 0%,100% { transform: rotate(-5deg) } 50% { transform: rotate(5deg) } }
+@keyframes eatHand { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+@keyframes blink { 0%,92%,100% { transform: scaleY(1) } 96% { transform: scaleY(.1) } }
+@keyframes floatZ { 0% { transform: translateY(4px); opacity: 0 } 30% { opacity: 1 } 100% { transform: translateY(-10px); opacity: 0 } }
+@keyframes sweat { 0%,100% { transform: translateY(0); opacity: .9 } 50% { transform: translateY(3px); opacity: .5 } }
+@keyframes bubbleIn { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: translateY(0) } }
+
+.spr.walk .bob { animation: hop .32s ease-in-out infinite; }
+.spr.walk .leg-a, .spr.walk .arm-b { animation: swingA .64s ease-in-out infinite; }
+.spr.walk .leg-b, .spr.walk .arm-a { animation: swingB .64s ease-in-out infinite; }
+
+.spr.desk .head { animation: nod 1.8s ease-in-out infinite; }
+.spr.desk .hand-a { animation: typeA .28s ease-in-out infinite; }
+.spr.desk .hand-b { animation: typeB .28s ease-in-out infinite; }
+.spr.desk .bob { animation: breathe 2.4s ease-in-out infinite; }
+
+.spr.eat .head { animation: nod 1.4s ease-in-out infinite; }
+.spr.eat .hand-a { animation: eatHand 1.2s ease-in-out infinite; }
+.spr.eat .bob { animation: breathe 2.4s ease-in-out infinite; }
+
+.spr.sit .head { animation: tilt 2.6s ease-in-out infinite; }
+.spr.sit .paper { animation: wave 2.6s ease-in-out infinite; }
+
+.spr.stand .bob { animation: breathe 1.4s ease-in-out infinite; }
+.spr.stand .sweat { animation: sweat 1.2s ease-in-out infinite; }
+
+.spr.sleep .head { transform: rotate(-9deg); }
+.spr.sleep .bob { animation: breathe 3.2s ease-in-out infinite; }
+
+.spr .eyes { animation: blink 4.5s infinite; }
+
+.zzz { animation: floatZ 2.4s ease-in-out infinite; opacity: 0; }
+.bubble-in { animation: bubbleIn .25s ease-out; }
